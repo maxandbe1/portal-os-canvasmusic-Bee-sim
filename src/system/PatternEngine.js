@@ -1,3 +1,4 @@
+
 export function analyzePatterns(sessions) {
   if (!sessions || sessions.length < 3) {
     return {
