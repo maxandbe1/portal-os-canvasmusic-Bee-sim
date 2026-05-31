@@ -1,10 +1,10 @@
 import React from "react";
 
 const items = [
+  { id: "beesim", label: "BEE‑SIM", icon: "🐝" },   // TOP POSITION
   { id: "dashboard", label: "Dashboard", icon: "🏠" },
   { id: "console", label: "Console", icon: "⌨️" },
   { id: "canvas-music", label: "Canvas", icon: "🎵" },
-  { id: "beesim", label: "BEE‑SIM", icon: "🐝" },
   { id: "memory", label: "Memory", icon: "🧠" },
   { id: "sound", label: "Sound", icon: "🔊" }
 ];
