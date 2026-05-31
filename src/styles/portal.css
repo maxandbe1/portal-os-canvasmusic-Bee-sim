@@ -1,0 +1,118 @@
+:root {
+  --obsidian-0: #05070a;
+  --obsidian-1: #0b0d10;
+  --obsidian-2: #0f1114;
+  --cyan-core: #27f3ff;
+  --gray-soft: #9ea7c5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    sans-serif;
+  background: var(--obsidian-0);
+  color: #f5f7fb;
+}
+
+.portal-shell {
+  display: flex;
+  height: 100vh;
+  background: radial-gradient(circle at top left, #101522 0, #05070a 55%);
+}
+
+.nav-rail {
+  width: 80px;
+  padding: 12px 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(3, 5, 9, 0.96);
+  backdrop-filter: blur(18px);
+}
+
+.nav-item {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--gray-soft);
+  padding: 8px 4px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-item.active {
+  border-color: var(--cyan-core);
+  color: #ffffff;
+  background: radial-gradient(circle at 0 0, #27f3ff22, transparent 60%);
+}
+
+.nav-icon {
+  font-size: 16px;
+}
+
+.nav-label {
+  font-size: 10px;
+}
+
+.module-view {
+  flex: 1;
+  padding: 24px 32px;
+}
+
+.canvas-surface {
+  border-radius: 12px;
+  border: 1px solid #1b2233;
+  background: #05070a;
+  box-shadow: 0 0 40px #000000aa;
+}
+
+.console-view .console-output {
+  height: 260px;
+  border-radius: 8px;
+  border: 1px solid #1b2233;
+  padding: 8px 10px;
+  font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  overflow-y: auto;
+  background: rgba(5, 7, 10, 0.9);
+}
+
+.console-input-row,
+.memory-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.console-input-row input,
+.memory-input-row input {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #1b2233;
+  background: rgba(5, 7, 10, 0.9);
+  color: #f5f7fb;
+  font-size: 12px;
+}
+
+.console-input-row button,
+.memory-input-row button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--cyan-core);
+  background: rgba(39, 243, 255, 0.08);
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
