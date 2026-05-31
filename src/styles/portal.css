@@ -35,7 +35,6 @@
   inset: 0;
   pointer-events: none;
 }
-
 .portal-window {
   position: absolute;
   background: rgba(5, 7, 10, 0.92);
@@ -44,6 +43,21 @@
   box-shadow: 0 0 40px #000000aa;
   overflow: hidden;
   pointer-events: auto;
+  transform-origin: top left;
+  animation: window-enter 0.16s ease-out;
+  transition:
+    transform 0.12s ease-out,
+    width 0.12s ease-out,
+    height 0.12s ease-out,
+    left 0.12s ease-out,
+    top 0.12s ease-out,
+    box-shadow 0.12s ease-out,
+    border-color 0.12s ease-out;
+}
+
+.portal-window:focus-within {
+  box-shadow: 0 0 40px #27f3ff44;
+  border-color: #27f3ff55;
 }
 
 .window-titlebar {
@@ -85,7 +99,36 @@
   cursor: nwse-resize;
   background: transparent;
 }
-.portal-window {
-  transition: all 0.12s ease-out;
+
+/* Animations */
+
+@keyframes window-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
+.portal-window.closing {
+  animation: window-exit 0.12s ease-in forwards;
+}
+
+@keyframes window-exit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+
+
+
+    
