@@ -71,7 +71,6 @@ export default function CanvasMusicView() {
         freqData.slice(200).reduce((a, b) => a + b, 0) /
           (freqData.length - 200 || 1) || 0;
 
-      // 1. Pulse geometry
       const pulse = 60 + avg * 0.4;
       ctx.strokeStyle = "#27F3FF";
       ctx.lineWidth = 2;
@@ -79,7 +78,6 @@ export default function CanvasMusicView() {
       ctx.arc(cx, cy, pulse, 0, Math.PI * 2);
       ctx.stroke();
 
-      // 2. Frequency halo
       ctx.strokeStyle = "#27F3FF33";
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -94,7 +92,6 @@ export default function CanvasMusicView() {
       ctx.closePath();
       ctx.stroke();
 
-      // 3. Waveform layer
       ctx.strokeStyle = "#27F3FF88";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
@@ -106,7 +103,6 @@ export default function CanvasMusicView() {
       }
       ctx.stroke();
 
-      // 4. Particle field
       particles.forEach((p) => {
         p.x += p.vx + (bass - 128) * 0.0004;
         p.y += p.vy + (mid - 128) * 0.0004;
@@ -162,8 +158,6 @@ export default function CanvasMusicView() {
 
   return (
     <div className="module-view canvas-music" style={{ position: "relative" }}>
-      
-      {/* SONG IDENTITY PROFILE BUTTON */}
       {!Monetization.isUnlocked("song-profile") && (
         <button
           className="premium-button"
@@ -174,7 +168,6 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* AUDIO INPUTS */}
       <input
         type="file"
         accept="audio/*"
@@ -213,12 +206,17 @@ export default function CanvasMusicView() {
         <audio ref={audioRef} controls style={{ width: "100%" }} />
       </div>
 
-      {/* IDENTITY BREAKDOWN */}
       <div className="identity-panel">
         <h3>Identity Breakdown</h3>
-        <p><strong>Identity Signal:</strong> {identityState.identity}</p>
-        <p><strong>Motion Signature:</strong> {identityState.motion}</p>
-        <p><strong>Emotional Field:</strong> {identityState.emotional}</p>
+        <p>
+          <strong>Identity Signal:</strong> {identityState.identity}
+        </p>
+        <p>
+          <strong>Motion Signature:</strong> {identityState.motion}
+        </p>
+        <p>
+          <strong>Emotional Field:</strong> {identityState.emotional}
+        </p>
       </div>
 
       {!Monetization.isUnlocked("deep-identity") && (
@@ -230,12 +228,17 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* MEANING PANEL */}
       <div className="interpretation-panel">
         <h3>What This Song Says About You</h3>
-        <p><strong>ME:</strong> {meaningState.me}</p>
-        <p><strong>US:</strong> {meaningState.us}</p>
-        <p><strong>WE:</strong> {meaningState.we}</p>
+        <p>
+          <strong>ME:</strong> {meaningState.me}
+        </p>
+        <p>
+          <strong>US:</strong> {meaningState.us}
+        </p>
+        <p>
+          <strong>WE:</strong> {meaningState.we}
+        </p>
       </div>
 
       {!Monetization.isUnlocked("relationship-pack") && (
@@ -247,7 +250,6 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* CANVAS */}
       <canvas
         ref={canvasRef}
         width={800}
@@ -265,7 +267,6 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* PATTERN REPORT HOOK */}
       {songCount >= 3 && !Monetization.isUnlocked("pattern-report") && (
         <button
           className="premium-button"
@@ -277,13 +278,10 @@ export default function CanvasMusicView() {
 
       {Monetization.isUnlocked("pattern-report") && <PatternReport />}
 
-      {/* SONG IDENTITY PROFILE */}
       {Monetization.isUnlocked("song-profile") && <SongIdentityProfile />}
 
-      {/* SESSION SUMMARY */}
       {Monetization.isUnlocked("session-summary") && <SessionSummary />}
 
-      {/* SESSION SUMMARY MODAL */}
       {showSummaryUpsell &&
         !Monetization.isUnlocked("session-summary") && (
           <div className="modal">
