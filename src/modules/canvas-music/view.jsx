@@ -1,11 +1,10 @@
-// src/modules/canvas-music/view.jsx
-
 import React, { useEffect, useRef, useState } from "react";
 import { analyzeIdentity } from "./identity.js";
 import { interpret } from "./meaning.js";
 import { Monetization } from "../../system/MonetizationManager.js";
 import { SessionStore } from "../../system/SessionStore.js";
 import PatternReport from "./PatternReport.jsx";
+import SongIdentityProfile from "./SongIdentityProfile.jsx";
 
 export default function CanvasMusicView() {
   const canvasRef = useRef(null);
@@ -162,6 +161,8 @@ export default function CanvasMusicView() {
 
   return (
     <div className="module-view canvas-music" style={{ position: "relative" }}>
+      
+      {/* SONG IDENTITY PROFILE BUTTON */}
       {!Monetization.isUnlocked("song-profile") && (
         <button
           className="premium-button"
@@ -172,6 +173,7 @@ export default function CanvasMusicView() {
         </button>
       )}
 
+      {/* AUDIO INPUTS */}
       <input
         type="file"
         accept="audio/*"
@@ -210,17 +212,12 @@ export default function CanvasMusicView() {
         <audio ref={audioRef} controls style={{ width: "100%" }} />
       </div>
 
+      {/* IDENTITY BREAKDOWN */}
       <div className="identity-panel">
         <h3>Identity Breakdown</h3>
-        <p>
-          <strong>Identity Signal:</strong> {identityState.identity}
-        </p>
-        <p>
-          <strong>Motion Signature:</strong> {identityState.motion}
-        </p>
-        <p>
-          <strong>Emotional Field:</strong> {identityState.emotional}
-        </p>
+        <p><strong>Identity Signal:</strong> {identityState.identity}</p>
+        <p><strong>Motion Signature:</strong> {identityState.motion}</p>
+        <p><strong>Emotional Field:</strong> {identityState.emotional}</p>
       </div>
 
       {!Monetization.isUnlocked("deep-identity") && (
@@ -232,17 +229,12 @@ export default function CanvasMusicView() {
         </button>
       )}
 
+      {/* MEANING PANEL */}
       <div className="interpretation-panel">
         <h3>What This Song Says About You</h3>
-        <p>
-          <strong>ME:</strong> {meaningState.me}
-        </p>
-        <p>
-          <strong>US:</strong> {meaningState.us}
-        </p>
-        <p>
-          <strong>WE:</strong> {meaningState.we}
-        </p>
+        <p><strong>ME:</strong> {meaningState.me}</p>
+        <p><strong>US:</strong> {meaningState.us}</p>
+        <p><strong>WE:</strong> {meaningState.we}</p>
       </div>
 
       {!Monetization.isUnlocked("relationship-pack") && (
@@ -254,6 +246,7 @@ export default function CanvasMusicView() {
         </button>
       )}
 
+      {/* CANVAS */}
       <canvas
         ref={canvasRef}
         width={800}
@@ -271,6 +264,7 @@ export default function CanvasMusicView() {
         </button>
       )}
 
+      {/* PATTERN REPORT HOOK */}
       {songCount >= 3 && !Monetization.isUnlocked("pattern-report") && (
         <button
           className="premium-button"
@@ -282,6 +276,10 @@ export default function CanvasMusicView() {
 
       {Monetization.isUnlocked("pattern-report") && <PatternReport />}
 
+      {/* SONG IDENTITY PROFILE */}
+      {Monetization.isUnlocked("song-profile") && <SongIdentityProfile />}
+
+      {/* SESSION SUMMARY MODAL */}
       {showSummaryUpsell &&
         !Monetization.isUnlocked("session-summary") && (
           <div className="modal">
@@ -309,4 +307,3 @@ export default function CanvasMusicView() {
     </div>
   );
 }
-
