@@ -1,4 +1,3 @@
-
 // src/modules/canvas-music/view.jsx
 
 import React, { useEffect, useRef, useState } from "react";
@@ -310,3 +309,4 @@ export default function CanvasMusicView() {
     </div>
   );
 }
+
