@@ -7,6 +7,8 @@ import PatternReport from "./PatternReport.jsx";
 import SongIdentityProfile from "./SongIdentityProfile.jsx";
 import SessionSummary from "./SessionSummary.jsx";
 
+const AUDIO_PROXY_BASE = "https://audio-proxy.maxandbe1.workers.dev";
+
 export default function CanvasMusicView() {
   const canvasRef = useRef(null);
   const audioRef = useRef(null);
@@ -18,7 +20,6 @@ export default function CanvasMusicView() {
   const [showSummaryUpsell, setShowSummaryUpsell] = useState(false);
   const [songCount, setSongCount] = useState(0);
 
-  // 🔥 Persist AudioContext + Analyser across renders
   const audioCtxRef = useRef(null);
   const analyserRef = useRef(null);
 
@@ -28,17 +29,14 @@ export default function CanvasMusicView() {
 
     const audio = audioRef.current;
 
-    // 🔥 Create AudioContext once
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioCtx();
     audioCtxRef.current = audioCtx;
 
-    // 🔥 Create analyser once
     const analyser = audioCtx.createAnalyser();
     analyser.fftSize = 1024;
     analyserRef.current = analyser;
 
-    // 🔥 Initial source connection
     let source = audioCtx.createMediaElementSource(audio);
     source.connect(analyser);
     analyser.connect(audioCtx.destination);
@@ -79,7 +77,6 @@ export default function CanvasMusicView() {
         freqData.slice(200).reduce((a, b) => a + b, 0) /
         (freqData.length - 200);
 
-      // Pulse
       const pulse = 60 + avg * 0.4;
       ctx.strokeStyle = "#27F3FF";
       ctx.lineWidth = 2;
@@ -87,7 +84,6 @@ export default function CanvasMusicView() {
       ctx.arc(cx, cy, pulse, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Halo
       ctx.strokeStyle = "#27F3FF33";
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -102,7 +98,6 @@ export default function CanvasMusicView() {
       ctx.closePath();
       ctx.stroke();
 
-      // Waveform
       ctx.strokeStyle = "#27F3FF88";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
@@ -114,7 +109,6 @@ export default function CanvasMusicView() {
       }
       ctx.stroke();
 
-      // Particles
       particles.forEach((p) => {
         p.x += p.vx + (bass - 128) * 0.0004;
         p.y += p.vy + (mid - 128) * 0.0004;
@@ -162,7 +156,6 @@ export default function CanvasMusicView() {
     };
   }, []);
 
-  // 🔥 FIX: Recreate MediaElementSource every time src changes
   function reconnectAudioPipeline() {
     const audio = audioRef.current;
     const audioCtx = audioCtxRef.current;
@@ -176,9 +169,7 @@ export default function CanvasMusicView() {
       const newSource = audioCtx.createMediaElementSource(audio);
       newSource.connect(analyser);
       analyser.connect(audioCtx.destination);
-    } catch (e) {
-      // Ignore "already connected" errors
-    }
+    } catch (e) {}
   }
 
   return (
@@ -193,7 +184,6 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* FILE INPUT */}
       <input
         type="file"
         accept="audio/*"
@@ -202,21 +192,27 @@ export default function CanvasMusicView() {
           if (file) {
             const url = URL.createObjectURL(file);
             audioRef.current.src = url;
-            reconnectAudioPipeline(); // 🔥 FIX
+            reconnectAudioPipeline();
             audioRef.current.play();
           }
         }}
         style={{ marginBottom: "8px" }}
       />
 
-      {/* URL INPUT */}
       <input
         type="text"
         placeholder="Paste audio URL and press Enter"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            audioRef.current.src = e.target.value;
-            reconnectAudioPipeline(); // 🔥 FIX
+            const rawUrl = e.target.value.trim();
+            if (!rawUrl) return;
+
+            const proxied = `${AUDIO_PROXY_BASE}/?url=${encodeURIComponent(
+              rawUrl
+            )}`;
+
+            audioRef.current.src = proxied;
+            reconnectAudioPipeline();
             audioRef.current.play();
           }
         }}
@@ -235,7 +231,6 @@ export default function CanvasMusicView() {
         <audio ref={audioRef} controls style={{ width: "100%" }} />
       </div>
 
-      {/* IDENTITY PANEL */}
       <div className="identity-panel">
         <h3>Identity Breakdown</h3>
         <p><strong>Identity Signal:</strong> {identityState.identity}</p>
@@ -252,7 +247,6 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* MEANING PANEL */}
       <div className="interpretation-panel">
         <h3>What This Song Says About You</h3>
         <p><strong>ME:</strong> {meaningState.me}</p>
@@ -269,7 +263,6 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* CANVAS */}
       <canvas
         ref={canvasRef}
         width={800}
@@ -287,7 +280,6 @@ export default function CanvasMusicView() {
         </button>
       )}
 
-      {/* PATTERN REPORT */}
       {songCount >= 3 && !Monetization.isUnlocked("pattern-report") && (
         <button
           className="premium-button"
@@ -298,14 +290,9 @@ export default function CanvasMusicView() {
       )}
 
       {Monetization.isUnlocked("pattern-report") && <PatternReport />}
-
-      {/* SONG IDENTITY PROFILE */}
       {Monetization.isUnlocked("song-profile") && <SongIdentityProfile />}
-
-      {/* SESSION SUMMARY */}
       {Monetization.isUnlocked("session-summary") && <SessionSummary />}
 
-      {/* UPSALE MODAL */}
       {showSummaryUpsell &&
         !Monetization.isUnlocked("session-summary") && (
           <div className="modal">
