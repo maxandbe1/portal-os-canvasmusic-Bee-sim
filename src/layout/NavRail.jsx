@@ -6,9 +6,7 @@ const items = [
   { id: "canvas-music", label: "Canvas", icon: "🎵" },
   { id: "beesim", label: "BEE‑SIM", icon: "🐝" }
   { id: "memory", label: "Memory", icon: "🧠" },
-  { id: "sound", label: "Sound", icon: "🔊" },
-
-];
+  { id: "sound", label: "Sound", icon: "🔊" },];
 
 export default function NavRail({ active, onSelect }) {
   return (
