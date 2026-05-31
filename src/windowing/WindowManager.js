@@ -1,72 +1,29 @@
-import { createContext } from "react";
 
-export const WindowContext = createContext();
+import React, { useEffect, useState } from "react";
+import Window from "./Window.jsx";
 
-export function createWindowManager() {
-  let windows = [];
-  let listeners = [];
+export default function WindowLayer({ manager, renderApp }) {
+  const [windows, setWindows] = useState([]);
 
-  function notify() {
-    listeners.forEach((fn) => fn([...windows]));
-  }
+  useEffect(() => {
+    return manager.subscribe(setWindows);
+  }, []);
 
-  function subscribe(fn) {
-    listeners.push(fn);
-    fn([...windows]);
-    return () => {
-      listeners = listeners.filter((l) => l !== fn);
-    };
-  }
-
-  function openWindow(appId, title) {
-    const id = crypto.randomUUID();
-    const win = {
-      id,
-      appId,
-      title,
-      x: 120 + windows.length * 30,
-      y: 80 + windows.length * 30,
-      w: 480,
-      h: 320,
-      z: windows.length + 1
-    };
-    windows.push(win);
-    notify();
-  }
-
-  function closeWindow(id) {
-    windows = windows.filter((w) => w.id !== id);
-    notify();
-  }
-
-  function focusWindow(id) {
-    const maxZ = Math.max(...windows.map((w) => w.z), 0);
-    windows = windows.map((w) =>
-      w.id === id ? { ...w, z: maxZ + 1 } : w
-    );
-    notify();
-  }
-
-  function moveWindow(id, x, y) {
-    windows = windows.map((w) =>
-      w.id === id ? { ...w, x, y } : w
-    );
-    notify();
-  }
-
-  function resizeWindow(id, w, h) {
-    windows = windows.map((w) =>
-      w.id === id ? { ...w, w, h } : w
-    );
-    notify();
-  }
-
-  return {
-    subscribe,
-    openWindow,
-    closeWindow,
-    focusWindow,
-    moveWindow,
-    resizeWindow
-  };
+  return (
+    <div className="window-layer">
+      {windows.map((win) => (
+        <Window
+          key={win.id}
+          win={win}
+          onClose={manager.closeWindow}
+          onFocus={manager.focusWindow}
+          onMove={manager.moveWindow}
+          onResize={manager.resizeWindow}
+          onSnap={manager.snapWindow}
+        >
+          {renderApp(win.appId)}
+        </Window>
+      ))}
+    </div>
+  );
 }
