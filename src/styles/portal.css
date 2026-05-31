@@ -85,4 +85,7 @@
   cursor: nwse-resize;
   background: transparent;
 }
+.portal-window {
+  transition: all 0.12s ease-out;
+}
 
