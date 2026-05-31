@@ -1,7 +1,8 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavRail from "./NavRail.jsx";
 import TopBar from "./TopBar.jsx";
+import Dock from "./Dock.jsx";
 import WindowLayer from "../windowing/WindowLayer.jsx";
 import { createWindowManager } from "../windowing/WindowManager.js";
 import Viewport from "./Viewport.jsx";
@@ -10,6 +11,11 @@ const manager = createWindowManager();
 
 export default function Shell() {
   const [active, setActive] = useState("beesim");
+  const [windows, setWindows] = useState([]);
+
+  useEffect(() => {
+    return manager.subscribe(setWindows);
+  }, []);
 
   function openApp(appId) {
     const titles = {
@@ -36,6 +42,8 @@ export default function Shell() {
           manager={manager}
           renderApp={(id) => <Viewport active={id} />}
         />
+
+        <Dock onLaunch={openApp} openWindows={windows} />
       </div>
     </div>
   );
