@@ -5,6 +5,7 @@ import { Monetization } from "../../system/MonetizationManager.js";
 import { SessionStore } from "../../system/SessionStore.js";
 import PatternReport from "./PatternReport.jsx";
 import SongIdentityProfile from "./SongIdentityProfile.jsx";
+import SessionSummary from "./SessionSummary.jsx";
 
 export default function CanvasMusicView() {
   const canvasRef = useRef(null);
@@ -279,6 +280,9 @@ export default function CanvasMusicView() {
       {/* SONG IDENTITY PROFILE */}
       {Monetization.isUnlocked("song-profile") && <SongIdentityProfile />}
 
+      {/* SESSION SUMMARY */}
+      {Monetization.isUnlocked("session-summary") && <SessionSummary />}
+
       {/* SESSION SUMMARY MODAL */}
       {showSummaryUpsell &&
         !Monetization.isUnlocked("session-summary") && (
@@ -307,3 +311,4 @@ export default function CanvasMusicView() {
     </div>
   );
 }
+
