@@ -13,3 +13,4 @@ export function loadMemoryModule() {
 
   return state;
 }
+
