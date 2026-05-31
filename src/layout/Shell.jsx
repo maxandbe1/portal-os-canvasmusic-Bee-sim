@@ -3,7 +3,7 @@ import NavRail from "./NavRail.jsx";
 import Viewport from "./Viewport.jsx";
 
 export default function Shell() {
-  const [active, setActive] = useState("canvas-music");
+  const [active, setActive] = useState("beesim"); // DEFAULT MODULE
 
   return (
     <div className="portal-shell">
