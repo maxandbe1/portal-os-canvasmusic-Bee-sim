@@ -1,31 +1,55 @@
+
 import React, { useEffect, useRef } from "react";
 
 export default function CanvasMusicView() {
   const canvasRef = useRef(null);
-  const mod = window.Portal.modules["canvas-music"];
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    function render(t) {
+    let audioCtx;
+    let analyser;
+    let dataArray;
+
+    async function setupAudio() {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioCtx = new AudioContext();
+      const source = audioCtx.createMediaStreamSource(stream);
+
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+
+      dataArray = new Uint8Array(analyser.frequencyBinCount);
+      source.connect(analyser);
+    }
+
+    setupAudio();
+
+    function render() {
       const w = canvas.width;
       const h = canvas.height;
-      const time = t / 1000;
 
       ctx.fillStyle = "#05070A";
       ctx.fillRect(0, 0, w, h);
 
-      const cx = w / 2;
-      const cy = h / 2;
+      if (analyser) {
+        analyser.getByteFrequencyData(dataArray);
+        const avg =
+          dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
 
-      const radius = 80 + 20 * Math.sin(time * 2);
-      ctx.strokeStyle = "#27F3FF";
-      ctx.lineWidth = 1.5;
+        const cx = w / 2;
+        const cy = h / 2;
 
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.stroke();
+        const radius = 60 + avg * 0.4;
+
+        ctx.strokeStyle = "#27F3FF";
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
 
       requestAnimationFrame(render);
     }
