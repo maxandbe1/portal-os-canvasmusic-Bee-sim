@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Window from "./Window.jsx";
 
@@ -27,3 +26,4 @@ export default function WindowLayer({ manager, renderApp }) {
     </div>
   );
 }
+
