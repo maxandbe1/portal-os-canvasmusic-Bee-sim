@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 
 export default function BeesimView() {
@@ -17,12 +18,15 @@ export default function BeesimView() {
   }, [mod]);
 
   return (
-    <div className="module-view">
-      <h2>🐝 BEE‑SIM Portal</h2>
-      <p>Colonies: {snapshot.colonies}</p>
-      <p>Bees: {snapshot.bees}</p>
-      <p>Nectar: {snapshot.nectar}</p>
-      <p>Tick: {snapshot.tick}</p>
+    <div className="module-view" style={{ paddingTop: "0px" }}>
+      <h2 style={{ marginTop: "0px" }}>🐝 BEE‑SIM Portal</h2>
+
+      <div className="beesim-stats">
+        <p>Colonies: {snapshot.colonies}</p>
+        <p>Bees: {snapshot.bees}</p>
+        <p>Nectar: {snapshot.nectar}</p>
+        <p>Tick: {snapshot.tick}</p>
+      </div>
     </div>
   );
 }
