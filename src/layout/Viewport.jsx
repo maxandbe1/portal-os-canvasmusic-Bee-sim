@@ -16,7 +16,11 @@ export default function Viewport({ active }) {
       return <CanvasMusicView />;
     case "beesim":
       return <BeesimView />;
-    default:
+    case "memory":
+      return <MemoryView />;
+    case "sound":
+      return <SoundView />;
+   default:
       return <CanvasMusicView />;
   }
 }
