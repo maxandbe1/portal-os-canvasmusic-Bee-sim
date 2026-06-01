@@ -1,4 +1,21 @@
 // src/modules/canvas-music/engine.js
+// src/modules/sound/bridge.js
+
+import {
+  initSound,
+  getSoundContext,
+  setMasterVolume,
+  playBeep
+} from "./engine.js";
+
+export const SoundBridge = {
+  init: initSound,
+  context: getSoundContext,
+  setVolume: setMasterVolume,
+  beep: playBeep
+};
+
+export default SoundBridge;
 
 let engineRunning = false;
 let frameCount = 0;
