@@ -1,15 +1,12 @@
-import * as Engine from "./engine.js";
+// src/modules/identity/bridge.js
 
-export function loadIdentityModule() {
-  const state = Engine.load();
+import { initIdentity, getIdentity, setIdentity } from "./engine.js";
 
-  window.Portal.modules.identity = {
-    id: Engine.id,
-    name: Engine.name,
-    state,
-    update: Engine.update,
-    reset: Engine.reset
-  };
+export const IdentityBridge = {
+  init: initIdentity,
+  get: getIdentity,
+  set: setIdentity
+};
 
-  return state;
-}
+export default IdentityBridge;
+
