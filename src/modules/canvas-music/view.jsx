@@ -7,11 +7,12 @@ import PatternReport from "./PatternReport.jsx";
 import SongIdentityProfile from "./SongIdentityProfile.jsx";
 import SessionSummary from "./SessionSummary.jsx";
 
-const AUDIO_PROXY_BASE = "https://audio-proxy.maxandbe1.workers.dev";
+
 
 export default function CanvasMusicView() {
   const canvasRef = useRef(null);
   const audioRef = useRef(null);
+  const AUDIO_PROXY_BASE = "https://audio-proxy.maxandbe1.workers.dev";
 
   const [identityState, setIdentityState] = useState(
     analyzeIdentity(null, null)
