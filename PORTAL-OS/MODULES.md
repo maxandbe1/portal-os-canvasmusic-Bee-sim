@@ -42,3 +42,37 @@ Portal‑OS is composed of cooperating modules. Each module has:
   - Aggregated system summary, status, and next actions.
 
 Each module should be documented in its own file in this folder.
+
+
+---
+
+### `PORTAL-OS/FULL-FILE-DIRECTIVE.md`
+
+```markdown
+# Full‑File Directive
+
+This repo follows a **Full‑File Directive**:
+
+> When generating or modifying code, prefer **full file outputs** over partial snippets.
+
+This is especially important for Copilots.
+
+## Rules for assistants (GitHub Copilot, Microsoft Copilot, others)
+
+- When asked to “add,” “update,” or “replace” logic:
+  - Return the **entire file** content.
+  - Include all imports and exports.
+  - Ensure the file is runnable as‑is.
+- Avoid:
+  - Diffs
+  - Partial patches
+  - “Insert this here” instructions
+  - Incomplete code blocks
+
+## Why
+
+- Keeps modules coherent.
+- Avoids drift between snippets and reality.
+- Makes refactors safer.
+- Matches how Portal‑OS is designed: modules as whole units.
+
