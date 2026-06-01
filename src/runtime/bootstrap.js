@@ -1,7 +1,5 @@
 // src/runtime/bootstrap.js
-//
-// Portal‑OS MVV Bootstrap (2026)
-// Safe, crash‑proof, default‑import compatible.
+// Safe, minimal Portal‑OS bootstrap for this repo
 
 import ConsoleBridge from "../modules/console/bridge.js";
 import IdentityBridge from "../modules/identity/bridge.js";
@@ -16,34 +14,22 @@ if (!window.Portal.modules) window.Portal.modules = {};
 
 export function bootstrapPortal() {
   try {
-    console.log(
-      "%cPortal‑OS MVV Booting…",
-      "color:#27F3FF;font-weight:bold;"
-    );
+    console.log("%cPortal‑OS Booting…", "color:#27F3FF;font-weight:bold;");
 
-    // Initialize all modules safely
     IdentityBridge.init?.();
     MemoryBridge.init?.();
     DashboardBridge.init?.();
     SoundBridge.init?.();
     BeesimBridge.init?.();
 
-    // Console is always safe to push to
-    ConsoleBridge.push("Portal‑OS Console Loaded");
+    ConsoleBridge.push?.("Portal‑OS Console Loaded");
+    CanvasMusicBridge.debug?.();
 
-    // Canvas‑Music debug state (safe, no DOM needed)
-    const dbg = CanvasMusicBridge.debug?.();
-    ConsoleBridge.push("Canvas‑Music Ready");
-
-    console.log(
-      "%cPortal‑OS MVV Ready",
-      "color:#00ff88;font-weight:bold;"
-    );
+    console.log("%cPortal‑OS Ready", "color:#00ff88;font-weight:bold;");
   } catch (err) {
     console.error("Portal‑OS bootstrap error:", err);
-    // Prevent blank screen by surfacing error in console UI
     try {
-      ConsoleBridge.push("Bootstrap Error: " + err.message);
+      ConsoleBridge.push?.("Bootstrap Error: " + err.message);
     } catch (_) {}
   }
 }
