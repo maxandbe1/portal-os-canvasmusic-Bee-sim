@@ -19,6 +19,11 @@ export default function ConsoleView() {
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
   }, []);
+  useEffect(() => {
+  window.__consolePush = (msg) => {
+    setLines((prev) => [...prev, msg]);
+   };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
