@@ -1,18 +1,18 @@
-// src/modules/beesim/bridge.js
+// src/modules/sound/bridge.js
 
 import {
-  initBeesim,
-  startBeesim,
-  stopBeesim,
-  getBeesimState
+  initSound,
+  getSoundContext,
+  setMasterVolume,
+  playBeep
 } from "./engine.js";
 
-export const BeesimBridge = {
-  init: initBeesim,
-  start: startBeesim,
-  stop: stopBeesim,
-  state: getBeesimState
+export const SoundBridge = {
+  init: initSound,
+  context: getSoundContext,
+  setVolume: setMasterVolume,
+  beep: playBeep
 };
 
-export default BeesimBridge;
+export default SoundBridge;
 
