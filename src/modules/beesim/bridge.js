@@ -1,15 +1,18 @@
-import * as Engine from "./engine.js";
+// src/modules/beesim/bridge.js
 
-export function loadBeesimModule() {
-  const state = Engine.load();
+import {
+  initBeesim,
+  startBeesim,
+  stopBeesim,
+  getBeesimState
+} from "./engine.js";
 
-  window.Portal.modules.beesim = {
-    id: Engine.id,
-    name: Engine.name,
-    state,
-    step: Engine.step,
-    reset: Engine.reset
-  };
+export const BeesimBridge = {
+  init: initBeesim,
+  start: startBeesim,
+  stop: stopBeesim,
+  state: getBeesimState
+};
 
-  return state;
-}
+export default BeesimBridge;
+
