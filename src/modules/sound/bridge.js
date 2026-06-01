@@ -1,15 +1,18 @@
-import * as Engine from "./engine.js";
+// src/modules/sound/bridge.js
 
-export function loadSoundModule() {
-  const state = Engine.load();
+import {
+  initSound,
+  getSoundContext,
+  setMasterVolume,
+  playBeep
+} from "./engine.js";
 
-  window.Portal.modules.sound = {
-    id: Engine.id,
-    name: Engine.name,
-    state,
-    toggle: Engine.toggle,
-    reset: Engine.reset
-  };
+export const SoundBridge = {
+  init: initSound,
+  context: getSoundContext,
+  setVolume: setMasterVolume,
+  beep: playBeep
+};
 
-  return state;
-}
+export default SoundBridge;
+
