@@ -1,32 +1,19 @@
-import React, { useState } from "react";
+import { runCommand } from "./engine.js";
 
-export default function ConsoleView() {
-  const mod = window.Portal.modules.console;
-  const [cmd, setCmd] = useState("");
+function handleSubmit(e) {
+  e.preventDefault();
 
-  const handleRun = () => {
-    if (!cmd.trim()) return;
-    const next = mod.log(`> ${cmd}`);
-    mod.state = next;
-    setCmd("");
-  };
+  const trimmed = input.trim();
+  if (!trimmed) return;
 
-  return (
-    <div className="module-view console-view">
-      <h2>Console</h2>
-      <div className="console-output">
-        {mod.state.lines.map((l, i) => (
-          <div key={i}>{l}</div>
-        ))}
-      </div>
-      <div className="console-input-row">
-        <input
-          value={cmd}
-          onChange={(e) => setCmd(e.target.value)}
-          placeholder="Type a command…"
-        />
-        <button onClick={handleRun}>Run</button>
-      </div>
-    </div>
-  );
+  const result = runCommand(trimmed);
+
+  if (result === "__CLEAR__") {
+    setLines([]);
+  } else {
+    setLines((prev) => [...prev, `> ${trimmed}`, result]);
+  }
+
+  setInput("");
 }
+
