@@ -204,13 +204,19 @@ export default function CanvasMusicView() {
         type="text"
         placeholder="Paste audio URL and press Enter"
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            const rawUrl = e.target.value.trim();
-            if (!rawUrl) return;
+         if (e.key === "Enter") {
+          const rawUrl = e.target.value.trim();
+         if (!rawUrl) return;
 
-            const proxied = `${AUDIO_PROXY_BASE}/?url=${encodeURIComponent(
-              rawUrl
-            )}`;
+         const proxied = `${AUDIO_PROXY_BASE}/?url=${encodeURIComponent(rawUrl)}`;
+
+         audioRef.current.src = proxied;
+         reconnectAudioPipeline();
+         audioRef.current.play();
+       }
+    }}  
+
+        
 
             audioRef.current.src = proxied;
             reconnectAudioPipeline();
