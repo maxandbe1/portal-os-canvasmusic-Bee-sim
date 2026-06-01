@@ -1,20 +1,27 @@
-export const id = "memory";
-export const name = "Memory";
+// src/modules/memory/engine.js
 
-let state = {
-  notes: []
-};
+const store = new Map();
 
-export function load() {
-  return state;
+export function initMemory() {
+  return store;
 }
 
-export function addNote(text) {
-  state = { ...state, notes: [...state.notes, { id: crypto.randomUUID(), text }] };
-  return state;
+export function setMemory(key, value) {
+  store.set(key, value);
+  return value;
 }
 
-export function reset() {
-  state = { notes: [] };
-  return state;
+export function getMemory(key) {
+  return store.get(key);
 }
+
+export function getAllMemory() {
+  const obj = {};
+  for (const [k, v] of store.entries()) obj[k] = v;
+  return obj;
+}
+
+export function clearMemory() {
+  store.clear();
+}
+
