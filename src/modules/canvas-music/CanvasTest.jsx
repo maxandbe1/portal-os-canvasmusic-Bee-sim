@@ -33,11 +33,9 @@ export default function CanvasTest() {
       const w = canvas.width;
       const h = canvas.height;
 
-      // Background
       ctx.fillStyle = "#05070A";
       ctx.fillRect(0, 0, w, h);
 
-      // Pulsing circle
       const cx = w / 2;
       const cy = h / 2;
       const r = 40 + Math.sin(t * 0.05) * 20;
@@ -75,3 +73,4 @@ export default function CanvasTest() {
     </div>
   );
 }
+
