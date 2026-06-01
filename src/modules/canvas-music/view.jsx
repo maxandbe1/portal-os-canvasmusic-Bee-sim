@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import CanvasTest from "../modules/canvas-music/CanvasTest.jsx";
 
 export default function CanvasMusicView() {
   console.log("CanvasMusicView: component mounted");
