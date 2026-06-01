@@ -1,8 +1,0 @@
-name = "portal-audio-proxy"
-main = "src/audioProxy.ts"
-compatibility_date = "2024-05-01"
-
-# This binds ONLY /audio* to the Worker
-routes = [
-  { pattern = "yourdomain.com/audio*", zone_id = "YOUR_ZONE_ID" }
-]
