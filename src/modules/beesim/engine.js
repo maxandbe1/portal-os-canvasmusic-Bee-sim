@@ -1,33 +1,51 @@
-export const id = "beesim";
-export const name = "BEE‑SIM Portal";
+// src/modules/beesim/engine.js
 
-let state = {
-  colonies: 1,
-  bees: 128,
+let running = false;
+let tick = 0;
+
+let hiveState = {
+  bees: 50,
   nectar: 0,
-  tick: 0
+  honey: 0
 };
 
-export function load() {
-  return state;
+export function initBeesim() {
+  running = false;
+  tick = 0;
+  hiveState = { bees: 50, nectar: 0, honey: 0 };
+  return hiveState;
 }
 
-export function step() {
-  state = {
-    ...state,
-    tick: state.tick + 1,
-    bees: state.bees + Math.floor(Math.sin(state.tick / 5) * 4),
-    nectar: state.nectar + 3
-  };
-  return state;
+export function startBeesim() {
+  if (running) return;
+  running = true;
+  loop();
 }
 
-export function reset() {
-  state = {
-    colonies: 1,
-    bees: 128,
-    nectar: 0,
-    tick: 0
-  };
-  return state;
+export function stopBeesim() {
+  running = false;
 }
+
+function loop() {
+  if (!running) return;
+
+  tick++;
+
+  hiveState.nectar += hiveState.bees * 0.1;
+  if (hiveState.nectar >= 10) {
+    hiveState.nectar -= 10;
+    hiveState.honey += 1;
+  }
+
+  if (typeof window !== "undefined") {
+    window.__beesimTick = tick;
+    window.__beesimHive = { ...hiveState };
+  }
+
+  setTimeout(loop, 200);
+}
+
+export function getBeesimState() {
+  return { tick, hive: { ...hiveState }, running };
+}
+
