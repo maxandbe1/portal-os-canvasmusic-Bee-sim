@@ -1,16 +1,20 @@
-import * as Engine from "./engine.js";
+// src/modules/memory/bridge.js
 
-export function loadMemoryModule() {
-  const state = Engine.load();
+import {
+  initMemory,
+  setMemory,
+  getMemory,
+  getAllMemory,
+  clearMemory
+} from "./engine.js";
 
-  window.Portal.modules.memory = {
-    id: Engine.id,
-    name: Engine.name,
-    state,
-    addNote: Engine.addNote,
-    reset: Engine.reset
-  };
+export const MemoryBridge = {
+  init: initMemory,
+  set: setMemory,
+  get: getMemory,
+  all: getAllMemory,
+  clear: clearMemory
+};
 
-  return state;
-}
+export default MemoryBridge;
 
