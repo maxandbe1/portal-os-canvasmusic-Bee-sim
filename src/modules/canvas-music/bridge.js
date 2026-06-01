@@ -1,15 +1,31 @@
-import * as Engine from "./engine.js";
+// src/modules/canvas-music/bridge.js
+//
+// Modern MVV Bridge for Canvas‑Music Engine
+// Provides a stable, object‑based API for bootstrap + other modules.
 
-export function loadCanvasMusicModule() {
-  const state = Engine.load();
+import {
+  startCanvasMusicEngine,
+  stopCanvasMusicEngine,
+  getCanvasMusicDebugState,
+  setCanvasIdentityState,
+  setCanvasMeaningState,
+  setCanvasPatternState,
+  setCanvasAudioState
+} from "./engine.js";
 
-  window.Portal.modules["canvas-music"] = {
-    id: Engine.id,
-    name: Engine.name,
-    state,
-    update: Engine.update,
-    reset: Engine.reset
-  };
+export const CanvasMusicBridge = {
+  start: startCanvasMusicEngine,
+  stop: stopCanvasMusicEngine,
 
-  return state;
-}
+  debug() {
+    return getCanvasMusicDebugState();
+  },
+
+  setIdentity: setCanvasIdentityState,
+  setMeaning: setCanvasMeaningState,
+  setPattern: setCanvasPatternState,
+  setAudio: setCanvasAudioState
+};
+
+export default CanvasMusicBridge;
+
