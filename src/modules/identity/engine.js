@@ -1,24 +1,28 @@
-export const id = "identity";
-export const name = "Identity";
+// src/modules/identity/engine.js
 
-let state = {
-  userId: "guest",
-  sessionId: crypto.randomUUID()
+let identityState = {
+  id: null,
+  name: null,
+  createdAt: null
 };
 
-export function load() {
-  return state;
+export function initIdentity() {
+  if (!identityState.createdAt) {
+    identityState = {
+      id: "portal-user",
+      name: "Portal User",
+      createdAt: new Date().toISOString()
+    };
+  }
+  return identityState;
 }
 
-export function update(next) {
-  state = { ...state, ...next };
-  return state;
+export function getIdentity() {
+  return identityState;
 }
 
-export function reset() {
-  state = {
-    userId: "guest",
-    sessionId: crypto.randomUUID()
-  };
-  return state;
+export function setIdentity(patch) {
+  identityState = { ...identityState, ...patch };
+  return identityState;
 }
+
