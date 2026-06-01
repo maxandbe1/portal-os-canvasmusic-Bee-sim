@@ -98,4 +98,20 @@ export async function runCommand(input) {
   }
   return result;
 }
+let watchInterval = null;
+
+commands.watch_canvas_music = function () {
+  if (watchInterval) {
+    clearInterval(watchInterval);
+    watchInterval = null;
+    return "Stopped watching canvas-music.";
+  }
+
+  watchInterval = setInterval(() => {
+    const data = getCanvasMusicDebugState();
+    window.__consolePush?.(JSON.stringify(data, null, 2));
+  }, 500);
+
+  return "Watching canvas-music (updates every 500ms). Type again to stop.";
+};
 
