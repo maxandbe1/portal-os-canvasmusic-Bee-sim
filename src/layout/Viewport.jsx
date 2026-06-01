@@ -5,6 +5,8 @@ import CanvasMusicView from "../modules/canvas-music/view.jsx";
 import BeesimView from "../modules/beesim/view.jsx";
 import MemoryView from "../modules/memory/view.jsx";
 import SoundView from "../modules/sound/view.jsx";
+import CanvasTest from "../modules/canvas-music/CanvasTest.jsx";
+
 
 export default function Viewport({ active }) {
   switch (active) {
@@ -20,7 +22,9 @@ export default function Viewport({ active }) {
       return <MemoryView />;
     case "sound":
       return <SoundView />;
-   default:
+      case "canvas-test":
+      return <CanvasTest />;
+    default:
       return <CanvasMusicView />;
   }
 }
