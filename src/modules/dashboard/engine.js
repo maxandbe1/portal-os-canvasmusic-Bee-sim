@@ -1,15 +1,25 @@
-export const id = "dashboard";
-export const name = "Dashboard";
+// src/modules/dashboard/engine.js
 
-let state = {
-  bootTime: new Date().toISOString()
+let dashboardState = {
+  activeView: "home",
+  widgets: []
 };
 
-export function load() {
-  return state;
+export function initDashboard() {
+  return dashboardState;
 }
 
-export function reset() {
-  state = { bootTime: new Date().toISOString() };
-  return state;
+export function setActiveView(view) {
+  dashboardState = { ...dashboardState, activeView: view };
+  return dashboardState;
 }
+
+export function setWidgets(widgets) {
+  dashboardState = { ...dashboardState, widgets: widgets || [] };
+  return dashboardState;
+}
+
+export function getDashboardState() {
+  return dashboardState;
+}
+
