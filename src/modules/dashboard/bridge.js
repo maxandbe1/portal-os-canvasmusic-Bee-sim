@@ -1,14 +1,18 @@
-import * as Engine from "./engine.js";
+// src/modules/dashboard/bridge.js
 
-export function loadDashboardModule() {
-  const state = Engine.load();
+import {
+  initDashboard,
+  setActiveView,
+  setWidgets,
+  getDashboardState
+} from "./engine.js";
 
-  window.Portal.modules.dashboard = {
-    id: Engine.id,
-    name: Engine.name,
-    state,
-    reset: Engine.reset
-  };
+export const DashboardBridge = {
+  init: initDashboard,
+  setView: setActiveView,
+  setWidgets,
+  state: getDashboardState
+};
 
-  return state;
-}
+export default DashboardBridge;
+
