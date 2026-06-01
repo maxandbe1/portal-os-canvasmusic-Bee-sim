@@ -1,34 +1,66 @@
-
-// src/modules/console/bridge.js
+// src/modules/canvas-music/bridge.js
 //
-// Portal‑OS Console Bridge
-// This file exposes a stable contract for interacting with the Console engine.
-// Other modules should import from this bridge instead of importing engine internals directly.
+// Portal‑OS Canvas‑Music Bridge
+// Provides a stable contract for interacting with the Canvas‑Music engine.
+// Other modules should import from this bridge instead of touching engine internals.
 
-import { runCommand, commands } from "./engine.js";
+import {
+  startCanvasMusicEngine,
+  stopCanvasMusicEngine,
+  getCanvasMusicDebugState,
+  getCanvasIdentityDeep,
+  getPatternTrace,
+  getAudioPipelineDebug,
+  setCanvasIdentityState,
+  setCanvasMeaningState,
+  setCanvasPatternState,
+  setCanvasAudioState
+} from "./engine.js";
 
-export const ConsoleBridge = {
-  // Execute a console command programmatically
-  exec(commandString) {
-    return runCommand(commandString);
+export const CanvasMusicBridge = {
+  // Engine lifecycle
+  start(options) {
+    return startCanvasMusicEngine(options);
   },
 
-  // List available commands
-  listCommands() {
-    return Object.keys(commands);
+  stop() {
+    return stopCanvasMusicEngine();
   },
 
-  // Push a message into the console output (used by watchers, engines, etc.)
-  push(message) {
-    if (typeof window !== "undefined" && window.__consolePush) {
-      window.__consolePush(message);
-    }
+  // Introspection
+  state() {
+    return getCanvasMusicDebugState();
   },
 
-  // Clear the console programmatically
-  clear() {
-    return runCommand("clear");
+  identityDeep() {
+    return getCanvasIdentityDeep();
+  },
+
+  patternTrace() {
+    return getPatternTrace();
+  },
+
+  audioPipeline() {
+    return getAudioPipelineDebug();
+  },
+
+  // State mutation (used by Identity/Pattern/Meaning modules)
+  setIdentity(next) {
+    return setCanvasIdentityState(next);
+  },
+
+  setMeaning(next) {
+    return setCanvasMeaningState(next);
+  },
+
+  setPattern(next) {
+    return setCanvasPatternState(next);
+  },
+
+  setAudio(next) {
+    return setCanvasAudioState(next);
   }
 };
 
-export default ConsoleBridge;
+export default CanvasMusicBridge;
+
