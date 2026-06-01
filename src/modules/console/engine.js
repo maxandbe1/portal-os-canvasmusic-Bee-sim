@@ -81,6 +81,11 @@ export async function runCommand(input) {
   const parts = input.trim().split(/\s+/);
   const cmd = parts[0];
   const args = parts.slice(1);
+  
+  if (cmd === "watch" && args[0] === "canvas-music") {
+  return commands.watch_canvas_music();
+}
+
 
   // Alias: `state canvas-music`
   if (cmd === "state" && args[0] === "canvas-music") {
